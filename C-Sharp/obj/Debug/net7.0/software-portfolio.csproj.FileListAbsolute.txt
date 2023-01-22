@@ -1,0 +1,15 @@
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\bin\Debug\net7.0\software-portfolio.exe
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\bin\Debug\net7.0\software-portfolio.deps.json
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\bin\Debug\net7.0\software-portfolio.runtimeconfig.json
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\bin\Debug\net7.0\software-portfolio.dll
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\bin\Debug\net7.0\software-portfolio.pdb
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.csproj.AssemblyReference.cache
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.GeneratedMSBuildEditorConfig.editorconfig
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.AssemblyInfoInputs.cache
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.AssemblyInfo.cs
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.csproj.CoreCompileInputs.cache
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.dll
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\refint\software-portfolio.dll
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.pdb
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\software-portfolio.genruntimeconfig.cache
+G:\My Drive\College_Classes\software-portfolio\C-Sharp\obj\Debug\net7.0\ref\software-portfolio.dll

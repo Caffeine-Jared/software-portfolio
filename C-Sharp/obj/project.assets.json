@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\My Drive\\College_Classes\\software-portfolio\\hello-world\\software-portfolio.csproj",
+      "projectUniqueName": "G:\\My Drive\\College_Classes\\software-portfolio\\C-Sharp\\software-portfolio.csproj",
       "projectName": "software-portfolio",
-      "projectPath": "G:\\My Drive\\College_Classes\\software-portfolio\\hello-world\\software-portfolio.csproj",
+      "projectPath": "G:\\My Drive\\College_Classes\\software-portfolio\\C-Sharp\\software-portfolio.csproj",
       "packagesPath": "C:\\Users\\jared\\.nuget\\packages\\",
-      "outputPath": "G:\\My Drive\\College_Classes\\software-portfolio\\hello-world\\obj\\",
+      "outputPath": "G:\\My Drive\\College_Classes\\software-portfolio\\C-Sharp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jared\\AppData\\Roaming\\NuGet\\NuGet.Config"
