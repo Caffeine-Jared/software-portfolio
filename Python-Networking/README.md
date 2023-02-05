@@ -1,6 +1,6 @@
 # Overview
 The purpose of this project was to learn more about how Python can work with networking modules like socket.
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/A5I98U6hlX8)
 
 # Network Communication
 
@@ -14,7 +14,6 @@ I also used socket for network communication and connections, colorama to allow 
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
 * [Python Docs - Socket](https://docs.python.org/3/library/socket.html)
 * [colorama](https://pypi.org/project/colorama/)
 

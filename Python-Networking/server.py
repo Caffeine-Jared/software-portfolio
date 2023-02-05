@@ -6,6 +6,7 @@ SERVER_IP_ADDRESS = "localhost"
 
 # Ask the user for what port number to use
 server_port = int(input("Enter the server's port number: "))
+SERVER_PORT_NUMBER = server_port
 
 MESSAGE_SEPARATOR = "<SEP>" # token to separate client's name and message
 
