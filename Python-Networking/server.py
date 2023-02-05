@@ -2,8 +2,11 @@ import socket
 from threading import Thread
 
 # IP address of the server
-SERVER_IP_ADDRESS = "0.0.0.0"
-SERVER_PORT_NUMBER = 8080 # port number to be used by the server
+SERVER_IP_ADDRESS = "localhost"
+
+# Ask the user for what port number to use
+server_port = int(input("Enter the server's port number: "))
+
 MESSAGE_SEPARATOR = "<SEP>" # token to separate client's name and message
 
 # initialize a set to store all connected client's sockets
