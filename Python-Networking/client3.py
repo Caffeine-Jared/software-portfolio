@@ -71,7 +71,7 @@ start_listening_thread()
 def send_message(client_socket, client_name, client_color, separator_token):
     def send_message_func():
         while True:
-            message_to_send =  input("Enter a message to send to the server (q to quit): ")
+            message_to_send =  input("Enter a message to send to the server ('q' to quit):")
             if message_to_send.lower() == 'q':
                 return
 

@@ -1,47 +1,85 @@
 import socket
-import threading
-import sys
+import random
+from threading import Thread
+from datetime import datetime
+from colorama import Fore, init
 
-# Function to wait for incoming data from the server and print it
-def receive(socket, signal):
-    while signal:
-        try:
-            # Receive data from the server with a buffer size of 32
-            data = socket.recv(32)
-            # Decode the incoming message from bytes to a string and print it
-            print(str(data.decode("utf-8")))
-        except:
-            # If there is an error in receiving the message, print a disconnection message and break the loop
-            print("You have been disconnected from the server")
-            signal = False
-            break
+# Initialize colors for text output
+init()
 
-# Prompt the user to enter the host and port values
-host = input("Host: ")
-port = int(input("Port: "))
+# Define available colors for the client
+available_colors = [
+    Fore.RED,
+    Fore.GREEN,
+    Fore.YELLOW,
+    Fore.BLUE,
+    Fore.MAGENTA,
+    Fore.CYAN,
+    Fore.WHITE,
+    Fore.LIGHTBLACK_EX,
+    Fore.LIGHTRED_EX,
+    Fore.LIGHTGREEN_EX,
+    Fore.LIGHTYELLOW_EX,
+    Fore.LIGHTBLUE_EX,
+    Fore.LIGHTMAGENTA_EX,
+    Fore.LIGHTCYAN_EX,
+    Fore.LIGHTWHITE_EX
+]
 
-# Attempt to connect to the server
-try:
-    # Create a socket object
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # Connect to the server with the host and port values
-    sock.connect((host, port))
-except:
-    # If the connection cannot be established, print an error message and exit the program with a status code of 0
-    print("Could not make a connection to the server")
-    input("Press enter to quit")
-    sys.exit(0)
+# Randomly choose a color for the client
+client_color = random.choice(available_colors)
 
-# Create a new thread for the receive function
-receiveThread = threading.Thread(target = receive, args = (sock, True))
-# Start the receive thread
-receiveThread.start()
+# Ask the user for the server's IP address
+server_host = input("Enter the server's IP address: ")
 
-# Continuously wait for the user's input and send it to the server
-def send_message(sock):
+# Ask the user for the server's port number
+server_port = int(input("Enter the server's port number: "))
+
+# Set the separator token
+separator_token = "<SEP>" # Token to separate client name and message
+
+# Initialize TCP socket for communication
+client_socket = socket.socket()
+
+# Connect to the server
+print("[*] Connecting to {}:{}...".format(server_host, server_port))
+client_socket.connect((server_host, server_port))
+print(f"Connected to {server_host}.")
+
+# Prompt the user for their name
+client_name = input("Enter your name: ")
+
+def listen_for_messages():
+    # Function to listen for incoming messages from the server and print them.
     while True:
-        # Get the message from the user
-        message = input("Enter a message: ")
-        # Encode the message as bytes and send it to the server
-        sock.sendall(str.encode(message))
-send_message(sock)
+        message = client_socket.recv(1024).decode()
+        print("\n" + message)
+
+def start_listening_thread():
+    # Create a new thread to listen for incoming messages and print them
+    listen_thread = Thread(target=listen_for_messages)
+    
+    # Set the thread to be a daemon so it ends when the main thread ends
+    listen_thread.daemon = True
+    
+    # Start the thread
+    listen_thread.start()
+
+start_listening_thread()
+
+# Continuously prompt the user for a message to send to the server
+def send_message(client_socket, client_name, client_color, separator_token):
+    def send_message_func():
+        while True:
+            message_to_send =  input("Enter a message to send to the server (q to quit): ")
+            if message_to_send.lower() == 'q':
+                return
+
+            current_date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
+            message_to_send = f"{client_color}[{current_date_time}] {client_name}{separator_token}{message_to_send}{Fore.RESET}"
+            client_socket.send(message_to_send.encode())
+    return send_message_func
+
+send_func = send_message(client_socket, client_name, client_color, separator_token)
+send_func()
+client_socket.close()

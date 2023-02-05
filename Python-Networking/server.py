@@ -1,78 +1,60 @@
 import socket
-import threading
-import sys
+from threading import Thread
 
-#Variables for holding information about connections
-connections = []
-total_connections = 0
+# IP address of the server
+SERVER_IP_ADDRESS = "0.0.0.0"
+SERVER_PORT_NUMBER = 8080 # port number to be used by the server
+MESSAGE_SEPARATOR = "<SEP>" # token to separate client's name and message
 
-#Client class, new instance created for each connected client
-#Each instance has the socket and address that is associated with items
-#Along with an assigned ID and a name chosen by the client
-class Client(threading.Thread):
-    def __init__(self, socket, address, id, name, signal):
-        threading.Thread.__init__(self)
-        self.socket = socket
-        self.address = address
-        self.id = id
-        self.name = name
-        self.signal = signal
-    
-    def __str__(self):
-        return str(self.id) + " " + str(self.address)
-    
-    #Attempt to get data from client
-    #If unable to, assume client has disconnected and remove him from server data
-    #If able to and we get data back, print it in the server and send it back to every
-    #client aside from the client that has sent it
-    #.decode is used to convert the byte data into a printable string
-    def run(self):
-        while self.signal:
-            try:
-                data = self.socket.recv(32)
-            except:
-                print("Client " + str(self.address) + " has disconnected")
-                self.signal = False
-                connections.remove(self)
-                break
-            if data != "":
-                print("ID " + str(self.id) + ": " + str(data.decode("utf-8")))
-                for client in connections:
-                    if client.id != self.id:
-                        client.socket.sendall(data)
+# initialize a set to store all connected client's sockets
+connected_client_sockets = set()
 
-#Wait for new connections
-def newConnections(socket):
+# create a TCP socket for the server
+server_socket = socket.socket()
+
+# set the port as reusable
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+# bind the server socket to the specified IP address and port number
+server_socket.bind((SERVER_IP_ADDRESS, SERVER_PORT_NUMBER))
+
+# listen for incoming connections
+server_socket.listen(5)
+print(f"Server Details: {SERVER_IP_ADDRESS}:{SERVER_PORT_NUMBER}")
+
+def listen_for_client_messages(client_socket):
+    # This function listens for messages from a specified client socket. Whenever a message is received, it broadcasts the
+    # message to all other connected clients. It runs on a separate thread for each connected client.
+
     while True:
-        sock, address = socket.accept()
-        global total_connections
-        connections.append(Client(sock, address, total_connections, "Name", True))
-        connections[len(connections) - 1].start()
-        print("New connection at ID " + str(connections[len(connections) - 1]))
-        total_connections += 1
+        try:
+            # receive message from the `client_socket`
+            message = client_socket.recv(1024).decode()
+        except Exception as e:
+            # if an error occurs, it means the client is no longer connected
+            # remove the client socket from the set of connected clients
+            print(f"[!] Error: {e}")
+            connected_client_sockets.remove(client_socket)
+        else:
+            # replace the MESSAGE_SEPARATOR token with ": " for better display
+            message = message.replace(MESSAGE_SEPARATOR, ": ")
+        # send the received message to all connected clients
+        for other_client_socket in connected_client_sockets:
+            other_client_socket.send(message.encode())
 
-def capture_message(client):
+def accept_incoming_connections():
     while True:
-        message = input()
-        client.socket.sendall(str.encode(message))
+        # continuously listen for incoming connections
+        client_socket, client_address = server_socket.accept()
+        print(f"[+] {client_address} connected.")
+        # add the newly connected client socket to the set of connected clients
+        connected_client_sockets.add(client_socket)
+        # start a new thread to listen for messages from this client
+        client_thread = Thread(target=listen_for_client_messages, args=(client_socket,))
+        # set the thread as a daemon thread so it will end when the main thread ends
+        client_thread.daemon = True
+        # start the thread
+        client_thread.start()
 
-def main():
-    #Get host and port
-    host = input("Host: ")
-    port = int(input("Port: "))
+accept_incoming_connections()
 
-    #Create new server socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((host, port))
-    sock.listen(5)
-
-    #Create new thread to wait for connections
-    newConnectionsThread = threading.Thread(target = newConnections, args = (sock,))
-    newConnectionsThread.start()
-    
-    #Create a new thread to capture messages from client
-    client = connections[0].socket
-    capture_messageThread = threading.Thread(target = capture_message, args = (client,))
-    capture_messageThread.start()
-    
-main()
