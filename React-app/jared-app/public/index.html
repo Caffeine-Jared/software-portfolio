@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Jared React Demo</title>
+  </head>
+  <body>
+    <h1>Second Program</h1>
+    <a href="%PUBLIC_URL%/second.html">Second Program</a>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div>
+      <h1 class="first">Simple Calculator</h1>
+    </div>
+    <div id="root"></div>
+    <div class="code-section"></div>
+
+    <script>
+      // Get a reference to the code-section container
+      const codeSection = document.querySelector('.code-section');
+    
+      // Define the code to be displayed
+      const code = `
+        import React, { useState } from "react";
+        import "./App.css";
+    
+        function App() {
+          const [input, setInput] = useState("");
+          const [result, setResult] = useState("");
+    
+          const handleClick = (event) => {
+            const value = event.target.value;
+            switch (value) {
+              case "C":
+                setInput("");
+                setResult("");
+                break;
+              case "=":
+                try {
+                  setResult(eval(input).toString());
+                } catch (error) {
+                  setResult("Error");
+                }
+                break;
+              default:
+                setInput(input + value);
+            }
+          };
+    
+          return (
+            <div className="App">
+              <div className="calculator">
+                <input type="text" value={input} onChange={(event) => setInput(event.target.value)} />
+                <div className="buttons">
+                  <button value="1" onClick={handleClick}>1</button>
+                  <button value="2" onClick={handleClick}>2</button>
+                  <button value="3" onClick={handleClick}>3</button>
+                  <button value="4" onClick={handleClick}>4</button>
+                  <button value="5" onClick={handleClick}>5</button>
+                  <button value="6" onClick={handleClick}>6</button>
+                  <button value="7" onClick={handleClick}>7</button>
+                  <button value="8" onClick={handleClick}>8</button>
+                  <button value="9" onClick={handleClick}>9</button>
+                  <button value="0" onClick={handleClick}>0</button>
+                  <button value="." onClick={handleClick}>.</button>
+                  <button value="C" onClick={handleClick}>C</button>
+                  <button className="operator" value="/" onClick={handleClick}>/</button>
+                  <button className="operator" value="*" onClick={handleClick}>*</button>
+                  <button className="operator" value="-" onClick={handleClick}>-</button>
+                  <button className="operator" value="+" onClick={handleClick}>+</button>
+                  <button className="operator" value="=" onClick={handleClick}>=</button>
+                </div>
+                <input type="text" value={result} readOnly />
+              </div>
+            </div>
+          );
+        }
+    
+        export default App;
+      `;
+    
+      // Create a new pre element to hold the code
+      const preElement = document.createElement('pre');
+    
+      // Set the text content of the pre element to the code
+      preElement.textContent = code;
+    
+      // Append the pre element to the code-section container
+      codeSection.appendChild(preElement);
+    </script>
+    
+    
+    
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
