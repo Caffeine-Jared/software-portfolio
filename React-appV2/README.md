@@ -6,7 +6,7 @@ Creating a calculator is always a good exercise for learning about basic algorit
 
 This web app is a practice in using React.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/tLY0Yg3aG14)
 
 # Development Environment
 
