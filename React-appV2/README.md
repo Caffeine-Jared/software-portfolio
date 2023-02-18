@@ -28,7 +28,6 @@ For this project, I used the following tools:
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
 * Fix rainbow function
 * Add more color options
 * Add more calculator functions
