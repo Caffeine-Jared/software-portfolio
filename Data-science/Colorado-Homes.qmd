@@ -1,0 +1,185 @@
+---
+title: "Colorado Housing Data Analysis"
+author: "Jared Linares"
+format:
+  html:
+    self-contained: true
+    page-layout: full
+    title-block-banner: true
+    toc: true
+    toc-depth: 3
+    toc-location: body
+    number-sections: false
+    html-math-method: katex
+    code-fold: true
+    code-summary: "Show the code"
+    code-overflow: wrap
+    code-copy: hover
+    code-tools:
+        source: false
+        toggle: true
+        caption: See code
+    
+---
+
+```{python}
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import altair as alt
+import seaborn as sns
+
+```
+
+## Introduction Question
+Having a home built pre-1980s or post-1980s can have a significant impact on the value of a home. There are many things to consider when it comes to acquiring such a home, including the age of the home, the number of stories, the number of bedrooms, the number of bathrooms, the square footage of the home, and the lot size. We can use data science to analyze sales data for homes built pre-1980s and post-1980s to predict future home sales trends in Denver and lead to more informed decisions and better outcomes for real estate professionals and homeowners.
+
+The questions that we are trying to answer is:
+How can analyzing sales data for homes built pre-1980s and post-1980s, and leveraging the latest data science techniques, help predict future home sales trends in Denver and lead to more informed decisions and better outcomes for real estate professionals and homeowners?
+
+And what type of homes would I consider buying if I were to buy a home in Denver? (This is a personal question that I am trying to answer - pre-1980s or post-1980s)
+
+## Data
+The data used in this analysis is from the Denver Assessor’s Office. The data is from 2013 and contains information on homes in Denver. The data contains information on the following variables:
+
+- "nbhd": Neigborhood of the home
+- "livearea": Square footage that is liveable
+- "finbsmnt": Square footage finished in the basement
+- "basement": Total square footage of the basement
+- "yrbuilt": Year the home was built
+- "condition": Condition of the home (6 levels provided)
+- "quality": A letter ratting
+- "totunits": How many dwelling units in the building
+- "stories": The number of stories
+- "gartype": Details on the garage type
+- "nocars": size of the garage in cars
+
+
+```{python}
+# using pandas to read in the CSV file and create a dataframe
+homes = pd.read_csv('Colorado-Homes-2013.csv')
+## This was cleaned previously
+
+alt.data_transformers.disable_max_rows()
+alt.data_transformers.enable('json')
+```
+
+
+__What are some trends that are becoming popular in Colorado's real estate market?__
+
+Something that interested me throughout looking through this data was finding how much things have changed when it came to constructing pre-1980s homes when compared with modern homes. From some of the trends seen in the graph below you can see that having a finished basement is more desirable in newer homes, and of those basements, having a finished basement is much more common than having an unfinished basement. Something else interesting about modern homes is how much bigger basements have gotten with time. In the graph below you can see that the average basement size for homes built before 1980 is around 500 square feet. This is a huge difference and shows how much more people are willing to pay for a larger basement. 
+
+```{python}
+sns.scatterplot(x='finbsmnt', y='basement', hue='before1980', data=homes)
+```
+
+__What about the prices of modern homes when compared with older homes?__
+
+When it comes to the prices of homes, there are many factors that go into determining the price of a home. However, something that stands out when looking at the graph below is that the average price of a home built before 1980 is much lower than the average price of a home built after 1980. This is a huge difference and shows how much more people are willing to pay for a newer home. 
+
+When choosing between a new home and an older home, buyers may consider a variety of factors such as modern amenities, maintenance needs, design aesthetic, and incentives. However, one additional factor that buyers may also consider is the potential for environmental hazards. Older homes may contain hazardous materials such as lead paint, asbestos, and formaldehyde, which can pose health risks to occupants if disturbed. Meanwhile, newer homes may have materials that contain volatile organic compounds (VOCs) and could be situated on contaminated land. Having a newer home means having to worry less about these environmental hazards. 
+
+```{python}
+sns.scatterplot(x='livearea', y='sprice', hue='before1980', data=homes)
+```
+
+Something else that stood out in this data was how much more expensive newer homes are when compared with older homes. Despite having similar square footage, newer homes are much more expensive than older homes. This is a huge difference and shows how much more people are willing to pay for a newer home. 
+    
+In the graph below you can see that differences between the average price of a home built before 1980 and the average price of a home built after 1980. The average price of a new home is almost 4x higher than the price of an older home. 
+(blue is after 1980, orange is before 1980)
+
+```{python}
+# using seaborn to create a bar plot
+# finding the average price of homes built before 1980 and after 1980
+sns.set_style("whitegrid")
+plt.figure(figsize=(8, 6))
+sns.barplot(x="before1980", y="sprice", data=homes, ci=None)
+plt.title("Average Home Value Before and After 1980")
+plt.xlabel("Built Before 1980")
+plt.ylabel("Average Home Value")
+plt.show()
+```
+
+Something else that I found while I was looking over the data was how pre-1980s construction people tended to create more dwelling units or townhome style homes. 
+
+```{python}
+sns.scatterplot(x='livearea', y='totunits', hue='before1980', data=homes)
+```
+
+The number of shared buildings has decreased over time. And shows how people might be more willing to pay for a single family home. 
+
+
+__Getting to the interesting question: And what type of homes would I consider buying if I were to buy a home in Denver?__
+
+Given the data that I have analyzed, I would consider buying a home built after 1980. I would consider buying a home built after 1980 because of the many benefits that come with having a newer home. Some of the benefits that come with having a newer home are that newer homes are more energy efficient, have better insulation, and are more likely to have modern amenities. 
+
+Additionally, having a single family home is much more convient than having to share a building with other people.
+
+## Conclusion
+
+If you're considering buying a home in Denver, it's important to consider both pre-1980s and post-1980s homes. Older homes may have a unique charm and character, but they may also come with more maintenance and potential environmental hazards, such as lead or asbestos. On the other hand, newer homes may be more energy-efficient and come with modern amenities, but they may also have higher price tags. Ultimately, the decision of whether to buy a pre-1980s or post-1980s home depends on your personal preferences and priorities, as well as your budget and the current state of the real estate market.
+
+## APPENDIX A (Additional Python Code)
+
+```python
+# This is additional code I made while getting the data ready for analysis and visualization for the final result of the project.
+# a lot of this didn't turn out well lol but I thought it was interesting to see how I got to the final result.
+#%%
+import matplotlib.pyplot as plt
+import pandas as pd
+import altair as alt
+import seaborn as sns
+
+
+#%%
+from sklearn.model_selection import train_test_split
+from sklearn import tree
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn import metrics
+
+#%%
+homes = pd.read_csv('homes.csv')
+
+
+#%%
+alt.data_transformers.disable_max_rows()
+alt.data_transformers.enable('json')
+
+
+#%%
+h_subset = homes.filter(['livearea', 'finbsmnt', 'basement', 'yearbuilt', 'nocars', 'numbdrm', 'numbaths', 'before1980','stories', 'yrbuilt']).sample(500)
+
+sns.pairplot(h_subset, hue = 'before1980')
+
+#%%
+
+corr = h_subset.drop(columns='before1980').corr()
+sns.heatmap(corr)
+
+
+#%%
+homes_df = pd.read_csv('homes.csv')
+homes_df.head()
+#%%
+homes_df.shape
+# chart 1: home value vs. before1980
+alt.Chart(homes_df, title="Homes w/ One Story are most likely to be built before 1980").mark_bar().encode(
+    alt.X('before1980:N', title="Before 1980"),
+    alt.Y('count(stories)', title="Count of Homes"),
+    alt.Color('before1980:N', title="Built Before 1980?"),
+    alt.Column('stories')
+).properties(width=100, height=100)
+#%%
+alt.data_transformers.disable_max_rows()
+alt.data_transformers.enable('json')
+#%%
+sns.scatterplot(x='finbsmnt', y='basement', hue='before1980', data=homes)
+# %%
+#%% 
+sns.scatterplot(x='livearea', y='sprice', hue='before1980', data=homes)
+
+# %%
+sns.scatterplot(x='livearea', y='totunits', hue='before1980', data=homes)
+
+```
