@@ -2,8 +2,6 @@
 
 Data science is what I consider the fun side of programming, there is so much to learn and so many different ways to approach a problem. I have always been interested in data science and I am excited to learn more about it. 
 
-[Software Demo Video](http://youtube.link.goes.here)
-
 # Data Analysis Results
 
 How can analyzing sales data for homes built pre-1980s and post-1980s, and leveraging the latest data science techniques, help predict future home sales trends in Denver and lead to more informed decisions and better outcomes for real estate professionals and homeowners?
