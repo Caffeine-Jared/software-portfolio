@@ -60,14 +60,13 @@ export default function App() {
   };
   const rainbowColors = [
     "rgb(255, 0, 0)",
-    "rgb(0, 255, 0)",
     "rgb(0, 0, 255)",
   ];
   
   let index = 0;
 
   const handleRainbowClick = () => {
-    const delay = 2000;
+    const delay = 10000;
     const nextIndex = (index + 1) % rainbowColors.length;
     const currentColor = rainbowColors[index];
     const nextColor = rainbowColors[nextIndex];
